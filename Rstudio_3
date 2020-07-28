@@ -1,0 +1,97 @@
+###### calculos de probabilidade Normal #####----------------------------------
+
+#calculo de probabilidade Normal, m�dia = 8, desvio = 2, valores de
+#interesse est�o abaixo de 6, (Valor desejado, m�dia, desvio pad�o),
+# pois trata-se distribui��o cumulativa
+
+Px<-pnorm(6,8,2)
+
+# valores acima de x=6, lower tail falso calcula e exclui a probabilidade 
+# acumulada, ou seja probabilidade complementar
+
+pnorm(6,8,2, lower.tail=F)
+
+# valores dentro do intervalo menos de 6 ou mais de 10
+
+pnorm(6,8,2) + pnorm(10,8,2, lower.tail=F)
+
+#menos de 10 ou mais de 8
+pnorm(10,8,2) - pnorm(8,8,2, lower.tail=F)
+
+# ou subtraindo do total
+1 - ( pnorm(8,8,2) + pnorm(10,8,2, lower.tail=F))
+
+#Teste de normalidade pelo teste de qqpolot (eye fit)
+#set seed para travar a amostra e sempre que rodar o script 
+#obter o mesmo resultado
+
+set.seed(123)
+
+# o COmando rnomr gera valores aleat�rios segundo uma distribui��o Normal
+
+x = rnorm(100)
+qqnorm(x)
+
+#Linha refer�ncia no teste qq2 para dados normais
+qqline(x)
+
+# teste de shapiro para dados normais com Ho para dados normais (P<0.05)
+shapiro.test(x) 
+
+### Calculo de probabilidades distribui��o t------------------------------------
+
+# Considerando dados amostrais de m�dia= 75, amostra n de tamanho 9, sd=9,
+# valor t ser� 1.5 constante em tabela, a probabilidade de x ser < 80, 
+# valor de t e gl (9-1=8):
+
+t.calculado<-((75-80)/9)
+
+p.calculado<-pt(t.calculado,8)
+p.tabelado<-pt(1.5, 8)
+
+# teste de hip�tese para x<80
+p.calculado>p.tabelado # n�o se rejeita H0
+
+
+####  Verificando se x>80
+pt(1.5,8,lower.tail=F) # medidas acumuladas
+
+t.calculado<-((75-80)/9)
+
+p.calculado<-pt(t.calculado,8,lower.tail=F)
+p.tabelado<-pt(1.5, 8,lower.tail=F)
+
+# teste de hip�tese para x>80
+p.calculado>p.tabelado # Rejeita-se H0 
+
+####probabilidade total
+pt(1.5, 8)+ pt(1.5,8,lower.tail=F)
+
+# por exclus�o 
+1-pt(1.5,8,lower.tail=F)
+
+### Calculo de probabilidades distribui��o t------------------------------------
+# distribui��o baseada em tres par�metros, primeiro � numero de sucessos(x), o
+# segundo � o tamanho do experimento (n) e a probabilidade de sucesso (p)
+
+# Procura-se 3 sucessos em 5 eventos, com p=0.5 ou seja, 50% de chance de acerto
+#dbin mostra as densidades associadas a uma binomial
+
+dbinom(3,5,0.5)
+(prob.binomial<-(dbinom(3,5,0.5))*100)#tem-se 31.25% de chance
+
+# fra�oes de um total 0 a 4 possibilidades de um total de 4 p= 0.25
+
+Evento.1<-dbinom(0,4,0.25)
+Evento.2<-dbinom(1,4,0.25)
+Evento.3<-dbinom(2,4,0.25)
+Evento.4<-dbinom(3,4,0.25)
+Evento.5<-dbinom(4,4,0.25)
+
+(Ptotal<-sum(Evento.1,Evento.2,Evento.3,Evento.4,Evento.5))
+
+# Probabilidade acumulada de de uma binomial
+pbinom(4,4,0.25)
+
+
+
